@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Telebeler</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+</head>
+<body>
+
+<div class="container">
+    <h1 style="text-align: center">Bu sehifede tələbələrin siyahisi olacaq</h1>
+    <a th:href="@{/}" class="btn btn-secondary">Əsas sehife</a>
+    <a th:href="@{/students/new}" class="btn btn-success">Yeni tələbə qeydiyati</a>
+
+    <form style="display: inline-block" th:action="@{/students/list/search}">
+        <input placeholder="Axtariş" class="form-control" name="studentName">
+    </form>
+    <hr>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Kod</th><th>Ad</th><th>Soyad</th><th>Sinif</th><th>Təvəllud</th><th>Email</th>
+            <th>Kurs kodu</th><th>Telefon</th><th>Sektor</th><th>Bildiyi proqramlaşdırma dilləri</th>
+            <th>
+                Əməliyyatlar
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="student:${students}">
+            <td th:text="${student.id}"></td>
+            <td th:text="${student.name}"></td>
+            <td th:text="${student.surname}"></td>
+            <td th:text="${student.studentClass}"></td>
+            <td th:text="${student.birthday}"></td>
+            <td th:text="${student.email}"></td>
+            <td th:text="${student.courseCode}"></td>
+            <td th:text="${student.phone}"></td>
+            <td th:text="${student.sector.name}"></td>
+            <td>
+                <ul>
+                    <li th:each="language : ${student.languages}" th:text="${language.name}"></li>
+                </ul>
+            </td>
+            <td><a class="btn btn-danger"
+                   th:href="@{/students/delete/{id}(id=${student.id})}"
+                   onclick="return confirm('Telebeni Silmey isdeiyinize eminsinizmi?')"
+            >Sil</a>
+
+                <a class="btn btn-warning"
+                   th:href="@{/students/edit/{id}(id=${student.id})}"
+                >Redakte</a>
+
+            </td>
+        </tr>
+
+        </tbody>
+    </table>
+
+</div>
+
+</body>
+</html>
